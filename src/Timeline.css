@@ -1,0 +1,275 @@
+.timeline-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.timeline-header {
+  padding: 16px;
+  background: #252525;
+  border-bottom: 1px solid #333;
+}
+
+.timeline-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #fff;
+}
+
+.timeline-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.time-display {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #888;
+  padding: 4px 8px;
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+.timeline-viewport {
+  flex: 1;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #1e1e1e;
+}
+
+.timeline-content {
+  position: relative;
+  height: 200px;
+  min-width: 100%;
+}
+
+/* Time ruler at the top */
+.time-ruler {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 30px;
+  background: #252525;
+  border-bottom: 1px solid #333;
+  z-index: 10;
+}
+
+.time-ruler-inner {
+  position: relative;
+  height: 100%;
+}
+
+.time-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid #444;
+  color: #888;
+  font-size: 11px;
+  padding-left: 4px;
+  padding-top: 2px;
+}
+
+.time-marker.major {
+  border-left-color: #666;
+  color: #aaa;
+}
+
+/* Track area */
+.track-area {
+  position: relative;
+  height: 120px;
+  margin-top: 30px;
+  background: linear-gradient(180deg, #1e1e1e 0%, #1a1a1a 100%);
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+/* Empty state */
+.timeline-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #666;
+  pointer-events: none;
+}
+
+.timeline-empty h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #888;
+}
+
+.timeline-empty p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Playhead */
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ff4444;
+  z-index: 20;
+  cursor: ew-resize;
+}
+
+.playhead::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -6px;
+  width: 14px;
+  height: 14px;
+  background: #ff4444;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.playhead-line {
+  position: absolute;
+  top: 14px;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: #ff4444;
+  pointer-events: none;
+}
+
+/* Timeline clips */
+.timeline-clip {
+  position: absolute;
+  height: 80px;
+  top: 20px;
+  background: #2a2a2a;
+  border: 2px solid #444;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+
+.timeline-clip:hover {
+  border-color: #666;
+}
+
+.timeline-clip.selected {
+  border-color: #4a9eff;
+  box-shadow: 0 0 0 1px #4a9eff;
+}
+
+.clip-content {
+  display: flex;
+  height: 100%;
+  pointer-events: none;
+}
+
+.clip-thumbnail {
+  width: 60px;
+  height: 100%;
+  object-fit: cover;
+  border-right: 1px solid #444;
+}
+
+.clip-info {
+  flex: 1;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.clip-name {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.clip-duration {
+  font-size: 11px;
+  color: #888;
+  font-family: 'Courier New', monospace;
+}
+
+/* Trim handles */
+.trim-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: #4a9eff;
+  cursor: ew-resize;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 5;
+}
+
+.timeline-clip.selected .trim-handle {
+  opacity: 1;
+}
+
+.trim-handle:hover {
+  background: #6bb0ff;
+}
+
+.trim-handle.left {
+  left: -2px;
+  border-radius: 4px 0 0 4px;
+}
+
+.trim-handle.right {
+  right: -2px;
+  border-radius: 0 4px 4px 0;
+}
+
+.trim-handle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Zoom controls (for future) */
+.zoom-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.zoom-button {
+  padding: 4px 8px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.zoom-button:hover {
+  background: #333;
+  border-color: #555;
+  color: #fff;
+}
+
+.zoom-button:active {
+  background: #222;
+}
+

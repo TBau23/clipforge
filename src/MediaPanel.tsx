@@ -5,9 +5,10 @@ import "./MediaPanel.css";
 
 interface MediaPanelProps {
   assets: Map<string, Asset>;
-  selectedAssetId: string | null;
+  selectedAssetPath: string | null;
   onAssetsChange: (assets: Map<string, Asset>) => void;
-  onAssetSelect: (id: string | null) => void;
+  onAssetSelect: (path: string | null) => void;
+  onAddToTimeline: (assetPath: string) => void;
 }
 
 // Concurrency limiter for parallel operations
@@ -37,9 +38,10 @@ async function runWithConcurrencyLimit<T>(
 
 export function MediaPanel({
   assets,
-  selectedAssetId,
+  selectedAssetPath,
   onAssetsChange,
   onAssetSelect,
+  onAddToTimeline,
 }: MediaPanelProps) {
   const [importing, setImporting] = useState(false);
   const [importProgress, setImportProgress] = useState("");
@@ -80,7 +82,7 @@ export function MediaPanel({
         // If already imported, just select it
         const existing = newAssets.get(path);
         if (existing) {
-          onAssetSelect(existing.id);
+          onAssetSelect(existing.path);
         }
         return false;
       }
@@ -188,22 +190,38 @@ export function MediaPanel({
   };
 
   const handleAssetClick = (asset: Asset) => {
-    onAssetSelect(asset.id);
+    onAssetSelect(asset.path);
   };
 
   const assetArray = Array.from(assets.values());
+
+  const handleAddToTimelineClick = () => {
+    if (selectedAssetPath) {
+      onAddToTimeline(selectedAssetPath);
+    }
+  };
 
   return (
     <div className="media-panel">
       <div className="media-panel-header">
         <h2>Media Library</h2>
-        <button
-          onClick={handleImportClick}
-          disabled={importing}
-          className="import-button"
-        >
-          {importing ? "Importing..." : "Import Files"}
-        </button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <button
+            onClick={handleImportClick}
+            disabled={importing}
+            className="import-button"
+          >
+            {importing ? "Importing..." : "Import Files"}
+          </button>
+          {selectedAssetPath && (
+            <button
+              onClick={handleAddToTimelineClick}
+              className="timeline-button"
+            >
+              Add to Timeline
+            </button>
+          )}
+        </div>
       </div>
 
       {error && <div className="error-toast">{error}</div>}
@@ -227,7 +245,7 @@ export function MediaPanel({
             <div
               key={asset.id}
               className={`media-card ${
-                selectedAssetId === asset.id ? "selected" : ""
+                selectedAssetPath === asset.path ? "selected" : ""
               }`}
               onClick={() => handleAssetClick(asset)}
               title={asset.path}

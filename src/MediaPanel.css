@@ -43,6 +43,22 @@
   cursor: not-allowed;
 }
 
+.timeline-button {
+  background: #4a9eff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.timeline-button:hover {
+  background: #2e88e8;
+}
+
 .error-toast {
   background: #f8d7da;
   border: 1px solid #f5c6cb;
@@ -166,6 +182,14 @@
 
   .import-button:hover:not(:disabled) {
     background: #0b5ed7;
+  }
+
+  .timeline-button {
+    background: #4a9eff;
+  }
+
+  .timeline-button:hover {
+    background: #2e88e8;
   }
 
   .error-toast {

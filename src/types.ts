@@ -27,3 +27,24 @@ export type MediaMetadata = {
   sizeBytes?: number;
 };
 
+// Timeline types
+export type Ms = number; // milliseconds
+
+export type Clip = {
+  id: string;
+  assetPath: string;  // path to the source asset (matches key in assets Map)
+  inMs: Ms;           // source in point (where in the asset this clip starts)
+  outMs: Ms;          // source out point (where in the asset this clip ends, exclusive)
+  startMs: Ms;        // timeline position (when this clip begins on the timeline)
+};
+
+export type Track = {
+  id: string;
+  clips: Clip[]; // clips must be non-overlapping and sorted by startMs
+};
+
+export type TimelineState = {
+  track: Track;
+  playheadMs: Ms;
+};
+
