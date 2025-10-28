@@ -1,0 +1,1 @@
+I'm picturing like a hammer and anvil hitting like a classic film strip or something - probably orange with like sparks flying, like a solid monochrome orange thing or maybe two colors. And then I'm picturing a sweet intro animation where it's just basically the hammer hitting the film strip a few times, maybe forming it into something different. Yeah, it could be sick. 
