@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { Asset, TimelineState, Clip } from "./types";
+import { useRef } from "react";
+import { Asset, TimelineState } from "./types";
 import { TimelineClip } from "./TimelineClip";
 import { Playhead } from "./Playhead";
 import "./Timeline.css";
@@ -191,7 +191,6 @@ export function Timeline({
             <Playhead
               timeMs={state.playheadMs}
               pixelsPerMs={PIXELS_PER_MS}
-              containerWidth={contentWidth}
               onSeek={handlePlayheadChange}
             />
           </div>

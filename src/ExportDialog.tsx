@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
 import { listen } from "@tauri-apps/api/event";
-import { Asset, Clip, ErrorEnvelope } from "./types";
+import { Clip, ErrorEnvelope } from "./types";
 import "./ExportDialog.css";
 
 interface ExportDialogProps {
   clips: Clip[];
-  assets: Map<string, Asset>;
   onClose: () => void;
 }
 
@@ -38,7 +37,7 @@ interface ExportPrepareResult {
   totalDurationMs: number;
 }
 
-export function ExportDialog({ clips, assets, onClose }: ExportDialogProps) {
+export function ExportDialog({ clips, onClose }: ExportDialogProps) {
   const [resolution, setResolution] = useState<string>("original");
   const [customWidth, setCustomWidth] = useState<number>(1920);
   const [customHeight, setCustomHeight] = useState<number>(1080);

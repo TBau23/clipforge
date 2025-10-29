@@ -174,7 +174,6 @@ function App() {
       {showExportDialog && (
         <ExportDialog
           clips={timelineState.track.clips}
-          assets={assets}
           onClose={() => setShowExportDialog(false)}
         />
       )}

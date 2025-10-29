@@ -15,7 +15,7 @@ ClipForge is a desktop application that enables users to:
 - **Node.js**: Version 20.19+ or 22.12+ (currently using 21.7.0)
 - **Rust**: Version 1.88+
 - **Tauri CLI**: `cargo install tauri-cli`
-- **FFmpeg**: `brew install ffmpeg` (for future media processing)
+- **FFmpeg**: **REQUIRED** - `brew install ffmpeg` (used for video probing, thumbnails, and export)
 
 ## Development Setup
 
@@ -45,19 +45,22 @@ ClipForge is a desktop application that enables users to:
 
 ## Current Features
 
-### ✅ Setup Epic Complete
+### ✅ MVP Complete
 - [x] Desktop app launches (Tauri + React)
-- [x] Basic IPC communication (ping/pong)
-- [x] Media probe stub command
+- [x] Video import (drag & drop + file picker)
+- [x] Timeline view with imported clips
+- [x] Video preview player with playback
+- [x] Trim functionality (in/out points)
+- [x] Export to MP4 with progress tracking
+- [x] Multiple resolution export options (Original, 1080p, 720p, Custom)
 - [x] Production build and packaging
 - [x] Native macOS app bundle
 
-### 🚧 MVP Features (Next)
-- [ ] Video import (drag & drop)
-- [ ] Timeline view with imported clips
-- [ ] Video preview player
-- [ ] Basic trim functionality
-- [ ] Export to MP4
+### 🚧 Future Features
+- [ ] Project save/load
+- [ ] Undo/redo
+- [ ] Multi-track support
+- [ ] Transitions and effects
 
 ### 🎯 Core Features (Full Submission)
 - [ ] Screen recording
@@ -89,12 +92,12 @@ clip_forge_tauri/
 
 ### Rust Commands (IPC)
 - `ping()` → Returns "pong" (tests IPC)
-- `select_file()` → Placeholder for file picker
-- `probe_media(path)` → Media probe stub
-
-### Frontend Functions
-- `ping()` → Tests IPC communication
-- `selectFile()` → Triggers file selection flow
+- `open_dialog()` → Opens native file picker
+- `probe_media(path)` → Probes video metadata using FFprobe
+- `make_thumbnail(path, durationMs)` → Generates video thumbnail
+- `export_prepare(request)` → Prepares video segments for export
+- `export_concat(listFile, outputPath, totalDurationMs)` → Concatenates and exports final video
+- `check_ffmpeg()` → Verifies FFmpeg installation
 
 ## Build Outputs
 
@@ -105,21 +108,25 @@ After running `npm run tauri build`:
 ## Development Notes
 
 - **Node Version**: Currently using Node 21.7.0 (Vite recommends 20.19+ or 22.12+)
-- **File Dialog**: Currently stubbed - will implement proper file picker in MVP phase
-- **FFmpeg Integration**: Ready for media processing implementation
-- **Cross-platform**: Configured for macOS, Windows builds possible
+- **FFmpeg**: Currently uses system FFmpeg via PATH (requires `brew install ffmpeg`)
+  - For distribution to users without FFmpeg, see `planning/BUNDLE_FFMPEG.md` for bundling instructions
+- **Export**: Uses FFmpeg segment extraction + concat demuxer for efficient multi-clip export
+- **Cross-platform**: Configured for macOS, Windows support possible with FFmpeg binaries
 
 ## Next Steps
 
-1. **MVP Phase**: Implement video import, timeline, and basic editing
-2. **Core Features**: Add recording capabilities and advanced editing
-3. **Polish**: UI improvements, keyboard shortcuts, export presets
+1. **Post-MVP**: Project persistence, undo/redo, multi-track
+2. **Recording**: Screen + webcam capture capabilities
+3. **Polish**: Transitions, effects, keyboard shortcuts, export presets
 
-## Timeline
+## Milestones
 
-- **Setup Epic**: ✅ Complete
-- **MVP Deadline**: Tuesday, October 28th at 10:59 PM CT
-- **Final Submission**: Wednesday, October 29th at 10:59 PM CT
+- **Setup Epic (0)**: ✅ Complete
+- **Media Intake (1)**: ✅ Complete
+- **Timeline Core (2)**: ✅ Complete
+- **Preview Engine (3)**: ✅ Complete
+- **Export Compiler (4)**: ✅ Complete
+- **MVP**: ✅ **COMPLETE**
 
 ---
 

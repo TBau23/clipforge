@@ -42,9 +42,10 @@ pub struct ExportClip {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[allow(dead_code)]
 pub struct ExportRequest {
     clips: Vec<ExportClip>,
-    output_path: String,
+    output_path: String,  // Passed separately to export_concat, not read from struct
     width: Option<u32>,
     height: Option<u32>,
 }
@@ -104,6 +105,60 @@ fn calculate_thumbnail_time(duration_ms: u64) -> u64 {
     let ten_percent = duration_ms / 10;
     let time = ten_percent.max(500).min(5000);
     time
+}
+
+// Helper to get FFmpeg binary path (searches common locations)
+fn get_ffmpeg_path() -> PathBuf {
+    // Try common Homebrew locations first (for production .app bundles)
+    let homebrew_paths = [
+        "/opt/homebrew/bin/ffmpeg",  // Apple Silicon
+        "/usr/local/bin/ffmpeg",     // Intel Mac
+    ];
+    
+    for path in &homebrew_paths {
+        if std::path::Path::new(path).exists() {
+            return PathBuf::from(path);
+        }
+    }
+    
+    // Fall back to PATH (works in dev mode)
+    PathBuf::from("ffmpeg")
+}
+
+// Helper to get FFprobe binary path (searches common locations)
+fn get_ffprobe_path() -> PathBuf {
+    // Try common Homebrew locations first (for production .app bundles)
+    let homebrew_paths = [
+        "/opt/homebrew/bin/ffprobe",  // Apple Silicon
+        "/usr/local/bin/ffprobe",     // Intel Mac
+    ];
+    
+    for path in &homebrew_paths {
+        if std::path::Path::new(path).exists() {
+            return PathBuf::from(path);
+        }
+    }
+    
+    // Fall back to PATH (works in dev mode)
+    PathBuf::from("ffprobe")
+}
+
+// Check if FFmpeg is available
+#[tauri::command]
+async fn check_ffmpeg() -> Result<bool, ErrorEnvelope> {
+    let output = tokio::process::Command::new(get_ffmpeg_path())
+        .arg("-version")
+        .output()
+        .await;
+    
+    match output {
+        Ok(out) if out.status.success() => Ok(true),
+        _ => Err(ErrorEnvelope::new(
+            "FFMPEG_NOT_FOUND",
+            "FFmpeg is not installed or not found in PATH",
+            "Install FFmpeg: brew install ffmpeg (macOS) or visit https://ffmpeg.org"
+        ))
+    }
 }
 
 // Parse frame rate string like "30/1" or "30000/1001"
@@ -177,7 +232,7 @@ async fn probe_media(path: String) -> Result<MediaMetadata, ErrorEnvelope> {
     }
     
     // Run ffprobe
-    let output = tokio::process::Command::new("ffprobe")
+    let output = tokio::process::Command::new(get_ffprobe_path())
         .args([
             "-v", "error",
             "-show_streams",
@@ -300,7 +355,7 @@ async fn make_thumbnail(
     }
     
     // Run ffmpeg to generate thumbnail
-    let output = tokio::process::Command::new("ffmpeg")
+    let output = tokio::process::Command::new(get_ffmpeg_path())
         .args([
             "-ss", &format!("{:.3}", thumb_time_sec),
             "-i", &path,
@@ -410,7 +465,7 @@ async fn export_prepare(
         ]);
         
         // Execute ffmpeg
-        let output = tokio::process::Command::new("ffmpeg")
+        let output = tokio::process::Command::new(get_ffmpeg_path())
             .args(&args)
             .output()
             .await
@@ -466,7 +521,7 @@ async fn export_concat(
     use tokio::io::{AsyncBufReadExt, BufReader};
     
     // Start ffmpeg process with concat demuxer
-    let mut child = tokio::process::Command::new("ffmpeg")
+    let mut child = tokio::process::Command::new(get_ffmpeg_path())
         .args([
             "-f", "concat",
             "-safe", "0",
@@ -574,7 +629,8 @@ pub fn run() {
             make_thumbnail,
             probe_media_stub,
             export_prepare,
-            export_concat
+            export_concat,
+            check_ffmpeg
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

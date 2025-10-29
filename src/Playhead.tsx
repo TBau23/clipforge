@@ -1,25 +1,21 @@
-import { useState } from "react";
+import React from "react";
 
 interface PlayheadProps {
   timeMs: number;
   pixelsPerMs: number;
-  containerWidth: number;
   onSeek: (timeMs: number) => void;
 }
 
 export function Playhead({
   timeMs,
   pixelsPerMs,
-  containerWidth,
   onSeek,
 }: PlayheadProps) {
-  const [isDragging, setIsDragging] = useState(false);
 
   const position = timeMs * pixelsPerMs;
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsDragging(true);
 
     const handleMouseMove = (moveEvent: MouseEvent) => {
       // Get the timeline container to calculate position
@@ -39,7 +35,6 @@ export function Playhead({
     };
 
     const handleMouseUp = () => {
-      setIsDragging(false);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
