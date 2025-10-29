@@ -3,6 +3,7 @@ import { Asset, TimelineState } from "./types";
 import { MediaPanel } from "./MediaPanel";
 import { Timeline } from "./Timeline";
 import { PreviewPlayer } from "./PreviewPlayer";
+import { ExportDialog } from "./ExportDialog";
 import { placeClip, deleteClip, getClipAt } from "./timelineOperations";
 import "./App.css";
 
@@ -11,6 +12,7 @@ function App() {
   const [selectedAssetPath, setSelectedAssetPath] = useState<string | null>(null);
   const [selectedClipId, setSelectedClipId] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [showExportDialog, setShowExportDialog] = useState(false);
   
   // Initialize timeline state
   const [timelineState, setTimelineState] = useState<TimelineState>({
@@ -123,8 +125,19 @@ function App() {
   return (
     <div className="app-container">
       <div className="app-header">
-        <h1>ClipForge</h1>
-        <p className="subtitle">Desktop Video Editor</p>
+        <div className="header-left">
+          <h1>ClipForge</h1>
+          <p className="subtitle">Desktop Video Editor</p>
+        </div>
+        <div className="header-right">
+          <button
+            className="export-button"
+            onClick={() => setShowExportDialog(true)}
+            disabled={timelineState.track.clips.length === 0}
+          >
+            Export Video
+          </button>
+        </div>
       </div>
       
       <div className="app-content">
@@ -157,6 +170,14 @@ function App() {
           />
         </div>
       </div>
+
+      {showExportDialog && (
+        <ExportDialog
+          clips={timelineState.track.clips}
+          assets={assets}
+          onClose={() => setShowExportDialog(false)}
+        />
+      )}
     </div>
   );
 }

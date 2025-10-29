@@ -1,0 +1,250 @@
+.export-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.export-dialog {
+  background: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  width: 500px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.export-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #333;
+}
+
+.export-dialog-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.close-button:hover {
+  background: #333;
+  color: #fff;
+}
+
+.close-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.export-dialog-content {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.export-info {
+  background: #2a2a2a;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.export-info p {
+  margin: 8px 0;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.export-info strong {
+  color: #fff;
+  font-weight: 500;
+}
+
+.export-option {
+  margin-bottom: 20px;
+}
+
+.export-option label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.export-option select {
+  width: 100%;
+  padding: 10px 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.export-option select:hover {
+  border-color: #555;
+}
+
+.export-option select:focus {
+  outline: none;
+  border-color: #0078d4;
+}
+
+.custom-resolution {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.resolution-input {
+  flex: 1;
+}
+
+.resolution-input label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.resolution-input input {
+  width: 100%;
+  padding: 10px 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.resolution-input input:hover {
+  border-color: #555;
+}
+
+.resolution-input input:focus {
+  outline: none;
+  border-color: #0078d4;
+}
+
+.export-error {
+  background: #4a1a1a;
+  border: 1px solid #8a3a3a;
+  padding: 12px 16px;
+  border-radius: 6px;
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-bottom: 20px;
+  white-space: pre-line;
+}
+
+.export-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.export-actions button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.export-actions button:not(.primary) {
+  background: #333;
+  color: #ccc;
+}
+
+.export-actions button:not(.primary):hover {
+  background: #444;
+  color: #fff;
+}
+
+.export-actions button.primary {
+  background: #0078d4;
+  color: #fff;
+}
+
+.export-actions button.primary:hover {
+  background: #106ebe;
+}
+
+.export-actions button:active {
+  transform: scale(0.98);
+}
+
+/* Progress UI */
+.export-progress {
+  padding: 20px 0;
+}
+
+.progress-message {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #2a2a2a;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0078d4, #00bcf2);
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  color: #999;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+

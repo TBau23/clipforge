@@ -73,9 +73,14 @@ export function PreviewPlayer({
 
   // Effect 2: Seek when paused and localMs changes
   useEffect(() => {
-    if (playing || !videoRef.current || !clip) return;
+    if (!videoRef.current || !clip) return;
     
     const video = videoRef.current;
+    
+    // Don't seek while actively playing, BUT do seek if video has ended
+    // This allows scrubbing after a clip finishes playing
+    if (playing && !video.ended) return;
+    
     const targetTime = localMs / 1000;
     
     if (Math.abs(video.currentTime - targetTime) > 0.05) {
