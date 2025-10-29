@@ -1,0 +1,1 @@
+Adding and removing a clip seems to prevent it from playing when added again

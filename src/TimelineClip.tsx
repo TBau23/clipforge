@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Asset, Clip } from "./types";
+import { getAssetUrl } from "./assetHelper";
 
 interface TimelineClipProps {
   clip: Clip;
@@ -52,7 +53,7 @@ export function TimelineClip({
     onSelect();
   };
 
-  const handleTrimLeftStart = (e: React.MouseEvent) => {
+  const handleTrimLeftStart = (e: React.PointerEvent) => {
     e.stopPropagation();
     e.preventDefault();
     setIsDraggingLeft(true);
@@ -64,7 +65,7 @@ export function TimelineClip({
     
     // Capture pointer to ensure we get events even outside the element
     const target = e.currentTarget as HTMLElement;
-    target.setPointerCapture(e.nativeEvent.pointerId);
+    target.setPointerCapture(e.pointerId);
 
     let autoScrollInterval: number | null = null;
 
@@ -138,7 +139,7 @@ export function TimelineClip({
     target.addEventListener("pointerup", handlePointerUp as any);
   };
 
-  const handleTrimRightStart = (e: React.MouseEvent) => {
+  const handleTrimRightStart = (e: React.PointerEvent) => {
     e.stopPropagation();
     e.preventDefault();
     setIsDraggingRight(true);
@@ -150,7 +151,7 @@ export function TimelineClip({
     
     // Capture pointer to ensure we get events even outside the element
     const target = e.currentTarget as HTMLElement;
-    target.setPointerCapture(e.nativeEvent.pointerId);
+    target.setPointerCapture(e.pointerId);
 
     let autoScrollInterval: number | null = null;
 
@@ -237,7 +238,7 @@ export function TimelineClip({
       <div className="clip-content">
         {asset.thumbPath && (
           <img
-            src={`asset://localhost/${asset.thumbPath}`}
+            src={getAssetUrl(asset.thumbPath)}
             alt={asset.name}
             className="clip-thumbnail"
           />

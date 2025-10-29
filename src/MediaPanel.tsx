@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Asset, MediaMetadata, ErrorEnvelope } from "./types";
+import { getAssetUrl } from "./assetHelper";
 import "./MediaPanel.css";
 
 interface MediaPanelProps {
@@ -252,7 +253,7 @@ export function MediaPanel({
             >
               {asset.thumbPath && (
                 <img
-                  src={`asset://localhost/${asset.thumbPath}`}
+                  src={getAssetUrl(asset.thumbPath)}
                   alt={asset.name}
                   className="media-thumbnail"
                 />

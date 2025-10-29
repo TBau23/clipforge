@@ -64,6 +64,7 @@ html, body, #root {
   flex-direction: column;
   overflow: hidden;
   background: #f8f9fa;
+  min-height: 0; /* Allow flex child to shrink properly */
 }
 
 .timeline-placeholder {
