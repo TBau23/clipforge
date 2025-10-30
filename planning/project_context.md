@@ -37,39 +37,39 @@ Simultaneous screen + webcam (picture-in-picture style)
 Audio capture from microphone
 Record, stop, and save recordings directly to timeline
 Technical hint: 
-For Electron: Use desktopCapturer API to list available screens/windows, then pass source to getUserMedia(). For webcam, use standard navigator.mediaDevices.getUserMedia().
+
 For Tauri: You'll need to invoke Rust commands to access screen capture (using platform-specific APIs like AVFoundation on macOS or Windows.Graphics.Capture on Windows). For webcam, use web APIs via getUserMedia() in the frontend.
 Alternative: Use navigator.mediaDevices.getDisplayMedia() in the renderer process for screen sharing (works in both frameworks but may have limitations on window selection).
 Import & Media Management
 Support multiple ways to add content:
 Drag and drop video files (MP4, MOV, WebM)
-File picker for importing from disk
-Media library panel showing imported clips
-Thumbnail previews of clips
-Basic metadata display (duration, resolution, file size)
+File picker for importing from disk x
+Media library panel showing imported clips x
+Thumbnail previews of clips x
+Basic metadata display (duration, resolution, file size) x
 Timeline Editor
 This is the heart of your application:
-Visual timeline with playhead (current time indicator)
+Visual timeline with playhead (current time indicator) x
 Drag clips onto timeline
-Arrange clips in sequence
-Trim clips (adjust start/end points)
+Arrange clips in sequence 
+Trim clips (adjust start/end points) x
 Split clips at playhead position
-Delete clips from timeline
+Delete clips from timeline x
 Multiple tracks (at least 2: main video + overlay/PiP)
 Zoom in/out on timeline for precision editing
 Snap-to-grid or snap-to-clip edges
 Preview & Playback
-Real-time preview of timeline composition
-Play/pause controls
-Scrubbing (drag playhead to any position)
-Audio playback synchronized with video
-Preview window shows current frame at playhead
+Real-time preview of timeline composition x
+Play/pause controls x
+Scrubbing (drag playhead to any position) x
+Audio playback synchronized with video 
+Preview window shows current frame at playhead x
 Export & Sharing
 Users need to get their videos out:
-Export timeline to MP4
-Resolution options (720p, 1080p, or source resolution)
-Progress indicator during export
-Save to local file system
+Export timeline to MP4 x
+Resolution options (720p, 1080p, or source resolution) x
+Progress indicator during export x
+Save to local file system x
 Bonus: Upload to cloud storage (Google Drive, Dropbox) or generate shareable link
 Technical hint: FFmpeg is essential for encoding. You'll need to stitch clips, apply cuts, and render to final format.
 Additional Features (Stretch Goals)

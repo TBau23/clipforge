@@ -226,4 +226,3 @@ This sequence gives you a usable editor (import/arrange/trim/preview/export) bef
 * **Events, not awaits:** Desktop work is long; progress events keep the UI honest and responsive.
 * **Invest in timeline purity:** A great timeline core makes every feature (transition, PiP, undo/redo) a small extension rather than a rewrite.
 
-

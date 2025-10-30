@@ -48,3 +48,10 @@ export type TimelineState = {
   playheadMs: Ms;
 };
 
+// Screen recording types
+export type ScreenDevice = {
+  id: string;
+  name: string;
+  deviceType: "screen" | "audio";
+};
+

@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { Asset, TimelineState } from "./types";
+import { invoke } from "@tauri-apps/api/core";
+import { Asset, TimelineState, MediaMetadata } from "./types";
 import { MediaPanel } from "./MediaPanel";
+import { RecordingPanel } from "./RecordingPanel";
 import { Timeline } from "./Timeline";
 import { PreviewPlayer } from "./PreviewPlayer";
 import { ExportDialog } from "./ExportDialog";
@@ -35,6 +37,52 @@ function App() {
     const newClip = newState.track.clips[newState.track.clips.length - 1];
     if (newClip) {
       setSelectedClipId(newClip.id);
+    }
+  };
+
+  // Handle recording completion - auto-import
+  const handleRecordingComplete = async (path: string) => {
+    try {
+      console.log("Recording completed, importing:", path);
+      
+      // Probe the recording
+      const metadata = await invoke<MediaMetadata>("probe_media", { path });
+      
+      // Generate thumbnail
+      let thumbPath: string | undefined;
+      try {
+        thumbPath = await invoke<string>("make_thumbnail", {
+          path,
+          durationMs: metadata.durationMs,
+        });
+      } catch (err) {
+        console.warn("Failed to generate thumbnail:", err);
+      }
+      
+      // Create asset
+      const asset: Asset = {
+        id: crypto.randomUUID(),
+        path,
+        name: path.split("/").pop() || "recording.webm",
+        durationMs: metadata.durationMs,
+        width: metadata.width,
+        height: metadata.height,
+        fps: metadata.fps,
+        sizeBytes: metadata.sizeBytes,
+        thumbPath,
+      };
+      
+      // Add to assets
+      const newAssets = new Map(assets);
+      newAssets.set(path, asset);
+      setAssets(newAssets);
+      
+      // Auto-select the new recording
+      setSelectedAssetPath(path);
+      
+      console.log("Recording imported successfully:", asset);
+    } catch (err) {
+      console.error("Failed to import recording:", err);
     }
   };
 
@@ -141,6 +189,8 @@ function App() {
       </div>
       
       <div className="app-content">
+        <RecordingPanel onRecordingComplete={handleRecordingComplete} />
+        
         <MediaPanel
           assets={assets}
           selectedAssetPath={selectedAssetPath}
