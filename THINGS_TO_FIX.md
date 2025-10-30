@@ -1,2 +1,4 @@
 -Scrubbing fails if we reach the end of a clip, but if there are multiple clips, I can scrub back to the first one and it seems to reset something , allowing scrubbing to work again - curious
 -properly bundle ffmpeg and ffprobe in the app, so we don't need to install them separately
+- audio sync on webcam recording is off
+- audio non existent on combined recording
