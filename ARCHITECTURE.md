@@ -272,7 +272,5 @@ Binary location: Searches Homebrew paths first (`/opt/homebrew/bin`, `/usr/local
 - **No project files**: Timeline state not persisted
 - **Trim-only editing**: No split-at-playhead or advanced effects
 
----
 
-**Total Lines: 238**
 
